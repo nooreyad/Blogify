@@ -39,10 +39,10 @@
     </div>
     <div class="col-6">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Idea created Successfully
+            Blog created Successfully
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <h4> Share yours ideas </h4>
+        <h4> Share yours blogs </h4>
         <div class="row">
             <div class="mb-3">
                 <textarea class="form-control" id="idea" rows="3"></textarea>
@@ -52,6 +52,7 @@
             </div>
         </div>
         <hr>
+        @foreach ($blogs as $blog)
         <div class="mt-3">
             <div class="card">
                 <div class="px-3 pt-4 pb-2">
@@ -68,10 +69,7 @@
                 </div>
                 <div class="card-body">
                     <p class="fs-6 fw-light text-muted">
-                        comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-                        of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
-                        ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum
-                        dolor sit amet..", comes from a line in section 1.10.32.
+                        {{$blog->content}}
                     </p>
                     <div class="d-flex justify-content-between">
                         <div>
@@ -80,7 +78,7 @@
                         </div>
                         <div>
                             <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                                3-5-2023 </span>
+                            {{$blog->created_at}} </span>
                         </div>
                     </div>
                     <div>
@@ -100,16 +98,10 @@
                                 <div class="d-flex justify-content-between">
                                     <h6 class="">Luigi
                                     </h6>
-                                    <small class="fs-6 fw-light text-muted"> 3 hour
-                                        ago</small>
+                                    <small class="fs-6 fw-light text-muted"> {{$blog->created_at}}</small>
                                 </div>
                                 <p class="fs-6 mt-3 fw-light">
-                                    and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
-                                    Evil)
-                                    by
-                                    Cicero, written in 45 BC. This book is a treatise on the theory of ethics,
-                                    very
-                                    popular during the Renaissan
+                                    {{$blog->comments}}
                                 </p>
                             </div>
                         </div>
@@ -117,6 +109,7 @@
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
     <div class="col-3">
         <div class="card">
