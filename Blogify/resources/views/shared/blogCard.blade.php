@@ -9,12 +9,38 @@
                         </a></h5>
                 </div>
             </div>
+            <div>
+                <form method="POST" action="{{route('blogs.destroy', $blog->id)}}">
+                    @csrf
+                    <a class="mx-2" href="{{route('blogs.edit', $blog->id)}}">Edit</a>
+                    <a href="{{route('blogs.show', $blog->id)}}">View</a>
+                    @method('delete')
+                    <button class="btn btn-danger btn-sm ms-2">Delete</button>
+            </div>
         </div>
     </div>
     <div class="card-body">
-        <p class="fs-6 fw-light text-muted">
-            {{$blog->content}}
-        </p>
+        <h5> {{$blog->title}} </h5>
+        @if ($editing ?? false)
+            <form action="{{route('blogs.update', $blog->id)}}", method="POST">
+                @csrf
+                @method('put')
+                <div class="mb-3">
+                    <textarea name = 'content' class="form-control" id="content" rows="3"> {{ $blog->content }} </textarea>
+                    @error('content')
+                        <span class="d-block fs-6 text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-dark mb-2 btn-sm">Update</button>
+                </div>
+            </form>
+        @else
+            <p class="fs-6 fw-light text-muted">
+                {{$blog->content}}
+            </p>
+        @endif
+
         <div class="d-flex justify-content-between">
             <div>
                 <a href="#" class="fw-light nav-link fs-6"> <span class="fas fa-heart me-1">
@@ -22,7 +48,7 @@
             </div>
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                {{$blog->created_at}} </span>
+                {{$blog->created_at->diffForHumans()}} </span>
             </div>
         </div>
         <div>
