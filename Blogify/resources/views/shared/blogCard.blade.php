@@ -9,13 +9,14 @@
                         </a></h5>
                 </div>
             </div>
-            <div>
-                <form method="POST" action="{{route('blogs.destroy', $blog->id)}}">
+            <div class="d-flex">
+                <a href="{{ route('blogs.show', $blog->id) }}"> View </a>
+                <a class="mx-2" href="{{ route('blogs.edit', $blog->id) }}"> Edit </a>
+                <form method="POST" action="{{ route('blogs.destroy', $blog->id) }}">
                     @csrf
-                    <a class="mx-2" href="{{route('blogs.edit', $blog->id)}}">Edit</a>
-                    <a href="{{route('blogs.show', $blog->id)}}">View</a>
                     @method('delete')
-                    <button class="btn btn-danger btn-sm ms-2">Delete</button>
+                    <button class="ms-1 btn btn-danger btn-sm"> X </button>
+                </form>
             </div>
         </div>
     </div>

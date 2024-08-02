@@ -3,7 +3,6 @@
 use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
 
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
