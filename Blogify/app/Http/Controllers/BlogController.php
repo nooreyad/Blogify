@@ -14,16 +14,12 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
+            'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000'
         ]);
 
-        $blog = Blog::create([
-            'title' => 'title of testing blog',
-            'content' => $request->get('content', ''),
-            'tags' => 'add dummy tags',
-            'comments' => 'dummy comment content'
-        ]);
+        Blog::create($validated);
 
         return redirect()->route('dashboard')->with('successful', 'Blog created successfully');
     }
@@ -42,12 +38,11 @@ class BlogController extends Controller
 
     public function update(Request $request, Blog $blog)
     {
-        $request->validate([
+        $validated = $request->validate([
             'content' => 'required|min:1|max:2000'
         ]);
 
-        $blog->content = $request->get('content', '');
-        $blog->save();
+        $blog->update($validated);
 
         return redirect()->route('blogs.show', $blog->id)->with('successful', 'Blog updated successfully');
     }
