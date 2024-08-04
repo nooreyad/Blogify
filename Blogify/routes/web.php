@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -35,6 +36,8 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::resource('users', UserController::class)->only('show', 'edit', 'update')->middleware('auth');
 
 Route::get('/terms', function () {
     return view('terms');

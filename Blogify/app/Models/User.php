@@ -46,6 +46,10 @@ class User extends Authenticatable
     }
 
     public function blogs(){
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Blog::class)->orderBy('created_at', 'DESC');
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class)->latest();
     }
 }
