@@ -39,6 +39,7 @@ class BlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         $validated = $request->validate([
+            'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000'
         ]);
 

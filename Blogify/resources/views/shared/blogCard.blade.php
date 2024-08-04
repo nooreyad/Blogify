@@ -21,12 +21,16 @@
         </div>
     </div>
     <div class="card-body">
-        <h5> {{$blog->title}} </h5>
         @if ($editing ?? false)
             <form action="{{route('blogs.update', $blog->id)}}", method="POST">
                 @csrf
                 @method('put')
                 <div class="mb-3">
+                    <textarea name="title" class="form-control" id="title" rows="1">{{$blog->title}}</textarea>
+                    @error('title')
+                        <span class="d-block fs-6 text-danger">{{ $message }}</span>
+                    @enderror
+                    <br>
                     <textarea name = 'content' class="form-control" id="content" rows="3"> {{ $blog->content }} </textarea>
                     @error('content')
                         <span class="d-block fs-6 text-danger">{{ $message }}</span>
@@ -37,6 +41,7 @@
                 </div>
             </form>
         @else
+            <h5> {{$blog->title}} </h5>
             <p class="fs-6 fw-light text-muted">
                 {{$blog->content}}
             </p>
