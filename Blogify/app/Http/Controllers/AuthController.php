@@ -8,15 +8,17 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(){
+    public function register()
+    {
         return view('auth.register');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|min:5|max:50',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:8'
+            'password' => 'required|confirmed|min:8',
         ]);
 
         User::create([
@@ -28,28 +30,33 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('successful', 'Account created successfully');
     }
 
-    public function login(){
+    public function login()
+    {
         return view('auth.login');
     }
 
-    public function authenticate(Request $request){
+    public function authenticate(Request $request)
+    {
         $validated = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
         ]);
 
-        if (auth()->attempt($validated)){
+        if (auth()->attempt($validated)) {
             $request->session()->regenerate();
 
             return redirect()->route('dashboard')->with('successful', 'Logged in successfully');
         }
 
-        return redirect()->route('login')->withErrors([
-            'email' => 'Incorrect email or password'
-        ]);
+        return redirect()
+            ->route('login')
+            ->withErrors([
+                'email' => 'Incorrect email or password',
+            ]);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

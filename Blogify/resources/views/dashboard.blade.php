@@ -17,7 +17,7 @@
                 <p class="text-center mt-4">No Results Found.</p>
             @endforelse
             <div class="mt-3">
-                {{ $blogs->links() }}
+                {{ $blogs->withQueryString()->links() }}
             </div>
         </div>
         <div class="col-3">
