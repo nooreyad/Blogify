@@ -6,20 +6,25 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
-
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.create');
+Route::group(['prefix' => 'blogs/', 'as' => 'blogs.', 'middleware' => ['auth']], function () {
 
-Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+    Route::post('', [BlogController::class, 'store'])->name('create');
 
-Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+    Route::get('{blog}', [BlogController::class, 'show'])->name('show');
 
-Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+    Route::group(['middleware' => ['auth']], function () {
 
-Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+        Route::get('{blog}/edit', [BlogController::class, 'edit'])->name('edit');
 
-Route::post('/blogs/{blog}/comments', [CommentController::class, 'store'])->name('blogs.comments.store');
+        Route::put('{blog}', [BlogController::class, 'update'])->name('update');
+
+        Route::delete('{blog}', [BlogController::class, 'destroy'])->name('destroy');
+
+        Route::post('{blog}/comments', [CommentController::class, 'store'])->name('comments.store');
+    });
+});
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
@@ -31,6 +36,6 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/terms', function(){
+Route::get('/terms', function () {
     return view('terms');
 });
