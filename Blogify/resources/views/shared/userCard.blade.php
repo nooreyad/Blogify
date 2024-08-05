@@ -5,7 +5,7 @@
                 <img style="width:150px" class="me-3 avatar-sm rounded-circle" src="{{ $user->getImageURL() }}"
                     alt="{{ $user->getImageURL() }}">
                 <div>
-                    <h3 class="card-title mb-0"><a href="#"> {{ $user->name }}
+                    <h3 class="card-title mb-0"><a href="{{route('profile')}}"> {{ $user->name }}
                         </a></h3>
                     <span class="fs-6 text-muted">{{ $user->email }}</span>
                 </div>
@@ -24,11 +24,11 @@
                 {{ $user->bio }}
             </p>
             <div class="d-flex justify-content-start">
-                <a href="#" class="fw-light nav-link fs-6 me-3"> <span class="fas fa-user me-1">
+                <a href="" class="fw-light nav-link fs-6 me-3"> <span class="fas fa-user me-1">
                     </span> 0 Followers </a>
-                <a href="#" class="fw-light nav-link fs-6 me-3"> <span class="fas fa-brain me-1">
+                <a href="" class="fw-light nav-link fs-6 me-3"> <span class="fas fa-brain me-1">
                     </span> {{ $user->blogs()->count() }} </a>
-                <a href="#" class="fw-light nav-link fs-6"> <span class="fas fa-comment me-1">
+                <a href="" class="fw-light nav-link fs-6"> <span class="fas fa-comment me-1">
                     </span> {{ $user->comments()->count() }}</a>
             </div>
             @auth
