@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -17,7 +18,12 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000',
+            'image' => 'image|nullable',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
 
         $validated['user_id'] = auth()->id();
 
@@ -32,7 +38,12 @@ class BlogController extends Controller
             abort(404);
         }
 
+        if ($blog->image) {
+            Storage::disk('public')->delete($blog->image);
+        }
+
         $blog->delete();
+
         return redirect()->route('dashboard')->with('successful', 'Blog deleted successfully');
     }
 
@@ -55,7 +66,16 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000',
+            'image' => 'image|nullable',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+
+            if ($blog->image) {
+                Storage::disk('public')->delete($blog->image);
+            }
+        }
 
         $blog->update($validated);
 
