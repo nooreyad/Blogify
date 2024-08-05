@@ -26,6 +26,18 @@
                             <span class="text-danger fs-6">{{ $message }}</span>
                         @enderror
                     </div>
+                    <label for="tags" class="mb-2">Tags</label>
+                    <div class="mb-3">
+                        <select id="tags" name="tags[]"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500
+                             focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                              dark:text-white dark:focus:ring-gray-500 dark:focus:border-gary-500"
+                            multiple>
+                            @foreach (App\Models\Tag::all() as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div>
                         <button class="btn btn-dark" type="submit">Share</button>
                     </div>
@@ -38,7 +50,7 @@
 @guest
     <div class="card">
         <div class="card-body">
-            <h4> Login to share your blogs </h4>
+            <h4> Register and Login to share your blogs </h4>
         </div>
     </div>
 @endguest

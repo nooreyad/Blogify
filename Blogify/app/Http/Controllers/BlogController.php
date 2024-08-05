@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,6 +11,7 @@ class BlogController extends Controller
 {
     public function show(Blog $blog)
     {
+        $tags = Tag::all();
         return view('blogs.show', compact('blog'));
     }
 
@@ -18,7 +20,7 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000',
-            'image' => 'image|nullable',
+            'image' => 'required|image',
         ]);
 
         if ($request->hasFile('image')) {
@@ -27,7 +29,10 @@ class BlogController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        Blog::create($validated);
+        $blog = Blog::create($validated);
+        if ($request->has('tags')) {
+            $blog->tags()->attach($request->tags);
+        }
 
         return redirect()->route('dashboard')->with('successful', 'Blog created successfully');
     }
@@ -41,6 +46,7 @@ class BlogController extends Controller
         if ($blog->image) {
             Storage::disk('public')->delete($blog->image);
         }
+        $blog->tags()->detach();
 
         $blog->delete();
 
@@ -52,9 +58,10 @@ class BlogController extends Controller
         if (auth()->id() !== $blog->user_id) {
             abort(404);
         }
+        $tags = Tag::all();
 
         $editing = true;
-        return view('blogs.show', compact('blog', 'editing'));
+        return view('blogs.show', compact('blog', 'editing', 'tags'));
     }
 
     public function update(Request $request, Blog $blog)
@@ -78,6 +85,9 @@ class BlogController extends Controller
         }
 
         $blog->update($validated);
+        if ($request->has('tags')) {
+            $blog->tags()->sync($request->tags);
+        }
 
         return redirect()
             ->route('blogs.show', $blog->id)

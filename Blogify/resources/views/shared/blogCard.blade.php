@@ -29,20 +29,35 @@
                 @csrf
                 @method('put')
                 <div class="mb-3">
+                    <label class="mb-2" for="title">Title</label>
                     <textarea name="title" class="form-control" id="title" rows="1">{{ $blog->title }}</textarea>
                     @error('title')
                         <span class="d-block fs-6 text-danger">{{ $message }}</span>
                     @enderror
-                    <br>
+                    <label for="content" class="mb-2 mt-3">Content</label>
                     <textarea name="content" class="form-control" id="content" rows="3">{{ $blog->content }}</textarea>
                     @error('content')
                         <span class="d-block fs-6 text-danger">{{ $message }}</span>
                     @enderror
-                    <div class="mt-4">
+                    <div>
+                        <label for="image" class="mb-2 mt-3">Thumbnail</label>
                         <input class="form-control" type="file" name="image">
                         @error('image')
                             <span class="text-danger fs-6">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <label for="tags" class="mb-2 mt-3">Tags</label>
+                    <div class="mb-3">
+                        <select name="tags[]" id="tags"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500
+                        focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                         dark:text-white dark:focus:ring-gray-500 dark:focus:border-gary-500"
+                            multiple>
+                            @foreach (App\Models\Tag::all() as $tag)
+                                <option value="{{ $tag->id }} @selected($blog->tags->contains($tag->id))">{{ $tag->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="">
@@ -51,12 +66,17 @@
             </form>
         @else
             <div class="d-flex">
-                <img style="width:300px" class="me-3 avatar-sm" src="{{ $blog->getImageURL() }}" alt="Thumbnail">
+                <img style="width:300px" class="me-3 avatar-sm d-flex" src="{{ $blog->getImageURL() }}"
+                    alt="Thumbnail">
                 <div>
                     <h5>{{ $blog->title }}</h5>
                     <p class="fs-6 fw-light text-muted">
                         {{ $blog->content }}
                     </p>
+                    @forelse ($blog->tags as $tag)
+                        #{{ $tag->name }}
+                    @empty
+                    @endforelse
                 </div>
             </div>
         @endif

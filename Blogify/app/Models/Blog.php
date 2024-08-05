@@ -25,4 +25,8 @@ class Blog extends Model
     {
         return url('storage/' . $this->image);
     }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->as('tags');
+    }
 }
