@@ -9,8 +9,8 @@
                         src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=Mario" alt=""></a>
             </div>
             <div class="overflow-hidden">
-                <a class="h6 mb-0" href="">Mario Brother</a>
-                <p class="mb-0 small text-truncate">@Mario</p>
+                <a class="h6 mb-0" href="">Geeks For Geeks</a>
+                <p class="mb-0 small text-truncate">@gfg</p>
             </div>
             <a class="btn btn-primary-soft rounded-circle icon-md ms-auto" href=""><i
                     class="fa-solid fa-plus"> </i></a>
@@ -21,8 +21,8 @@
                         src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=Mario" alt=""></a>
             </div>
             <div class="overflow-hidden">
-                <a class="h6 mb-0" href="">Mario Brother</a>
-                <p class="mb-0 small text-truncate">@Mario</p>
+                <a class="h6 mb-0" href="">Stack Overflow</a>
+                <p class="mb-0 small text-truncate">@sof</p>
             </div>
             <a class="btn btn-primary-soft rounded-circle icon-md ms-auto" href=""><i
                     class="fa-solid fa-plus"> </i></a>
