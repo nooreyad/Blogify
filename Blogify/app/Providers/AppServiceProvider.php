@@ -22,8 +22,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Passport::hashClientSecrets();
-        Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
-        Passport::ignoreRoutes();
+        // Passport::hashClientSecrets();
+        // Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
+        // Passport::ignoreRoutes();
+        // Passport::tokensExpireIn(now()->addDays(15));
+        // Passport::refreshTokensExpireIn(now()->addMonth(3));
+        // Passport::personalAccessTokensExpireIn(now()->addMinutes(15));
     }
 }
