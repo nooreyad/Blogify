@@ -15,7 +15,7 @@
                 @auth
                 @if (Auth::id() === $blog->user->id)
                 <a href="{{ route('blogs.edit', $blog->id) }}" class="btn-link">Edit</a>
-                <form method="POST" action="{{ route('blogs.destroy', $blog->id) }}" class="mb-0">
+                <form id="delete-blog-form-{{ $blog->id }}" data-blog-id="{{ $blog->id }}" method="POST" action="{{ route('blogs.destroy', $blog->id) }}">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-danger btn-sm">X</button>

@@ -3,7 +3,7 @@
         <div class="card-body">
             <h4> Share your blogs </h4>
             <div class="row">
-                <form action="{{ route('blogs.create') }}" method="POST" enctype="multipart/form-data">
+                <form enctype="multipart/form-data" method="POST" id="blogForm">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
@@ -30,8 +30,8 @@
                     <div class="mb-3">
                         <select id="tags" name="tags[]"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500
-                             focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                              dark:text-white dark:focus:ring-gray-500 dark:focus:border-gary-500"
+                                focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                                dark:text-white dark:focus:ring-gray-500 dark:focus:border-gary-500"
                             multiple>
                             @foreach (App\Models\Tag::all() as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -39,7 +39,7 @@
                         </select>
                     </div>
                     <div>
-                        <button class="btn btn-dark" type="submit">Share</button>
+                        <button onclick="submitBlog()" class="btn btn-dark" type="button">Share</button>
                     </div>
                 </form>
             </div>
@@ -54,3 +54,24 @@
         </div>
     </div>
 @endguest
+
+
+<script>
+function submitBlog() {
+    event.preventDefault();
+    let formData = new FormData(document.getElementById('blogForm'));
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.status === 200) {
+            // Append the new blog to the blog list
+            document.querySelector("[data-container='blog-list']").insertAdjacentHTML('afterbegin', this.responseText);
+            document.getElementById('blogForm').reset();
+        } else {
+            console.log('Error:', this.statusText);
+        }
+    }
+    xhttp.open("POST", "{{ route('blogs.create') }}", true);
+    xhttp.send(formData);
+}
+</script>
+

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('allBlogs');
 
 Route::group(['prefix' => 'blogs/', 'as' => 'blogs.', 'middleware' => ['auth']], function () {
 

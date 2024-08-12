@@ -9,16 +9,7 @@
             @include('shared.successMessage')
             @include('shared.submitBlog')
             <hr>
-            @forelse ($blogs as $blog)
-                <div class="mt-3">
-                    @include('shared.blogCard')
-                </div>
-            @empty
-                <p class="text-center mt-4">No Results Found.</p>
-            @endforelse
-            <div class="mt-3">
-                {{ $blogs->withQueryString()->links() }}
-            </div>
+            @include('shared.allBlogs')
         </div>
         <div class="col-3">
             @include('shared.searchBar')

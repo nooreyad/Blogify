@@ -15,8 +15,7 @@ class BlogController extends Controller
         return view('blogs.show', compact('blog'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validated = $request->validate([
             'title' => 'required|min:1|max:150',
             'content' => 'required|min:1|max:2000',
@@ -34,8 +33,10 @@ class BlogController extends Controller
             $blog->tags()->attach($request->tags);
         }
 
-        return redirect()->route('dashboard')->with('successful', 'Blog created successfully');
+        // Return the new blog view for AJAX append
+        return view('shared.blogCard', compact('blog'))->render();
     }
+
 
     public function destroy(Blog $blog)
     {
