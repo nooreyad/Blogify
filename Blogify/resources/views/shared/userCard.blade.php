@@ -22,7 +22,7 @@
             <p class="fs-6 fw-light">{{ $user->bio }}</p>
             <div class="d-flex flex-wrap justify-content-start">
                 <a href="#" class="fw-light nav-link fs-6 me-3">
-                    <span class="fas fa-user me-1"></span> 0 Followers
+                    <span class="fas fa-user me-1"></span> {{$user->followers()->count()}} Followers
                 </a>
                 <a href="#" class="fw-light nav-link fs-6 me-3">
                     <span class="fas fa-brain me-1"></span> {{ $user->blogs()->count() }} Blogs
@@ -34,7 +34,17 @@
             @auth
                 @if (Auth::id() !== $user->id)
                     <div class="mt-3">
-                        <button class="btn btn-primary btn-sm">Follow</button>
+                        @if (Auth::user()->follows($user))
+                            <form method="POST" action="{{ route('users.unfollow', $user->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">Unfollow</button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('users.follow', $user->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+                            </form>
+                        @endif
                     </div>
                 @endif
             @endauth
