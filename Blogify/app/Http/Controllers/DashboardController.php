@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request){
+    public function show(Request $request){
         $blogs = Blog::orderby('created_at', 'DESC');
         if ($request->has('search')){
             $blogs = $blogs->where('content', 'like', '%' . $request->get('search', '') . '%')

@@ -10,14 +10,22 @@ class FollowerController extends Controller
     public function follow(User $user){
         $follower = auth()->user();
 
+        if ($user->id === $follower->id){
+            return response()->json(['error' => 'are u fr?']);
+        }
+
         $follower->followings()->attach($user);
-        return redirect()->route('users.show', $user->id)->with('successful', "You're now following {$user->name}");
+        return response()->json(['message' => "You're now following them!"]);
     }
 
     public function unfollow(User $user){
         $follower = auth()->user();
 
+        if ($user->id === $follower->id){
+            return response()->json(['error' => 'are u fr?']);
+        }
+
         $follower->followings()->detach($user);
-        return redirect()->route('users.show', $user->id)->with('successful', "You're no longer following {$user->name}");
+        return response()->json(['message' => "You're no longer following them"]);
     }
 }

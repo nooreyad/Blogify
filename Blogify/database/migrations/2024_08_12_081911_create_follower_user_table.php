@@ -11,10 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('follower_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('follower_id')->constrained('users')->cascadeOnDelete();
+            $table->id();
+            $table->foreignId('follower_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**
