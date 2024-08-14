@@ -53,20 +53,7 @@ class AuthController extends Controller
             'role_id' => $validated['role_id']
         ]);
 
-        $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
-            'grant_type' => 'password',
-            'client_id' => env('PASSPORT_CLIENT_ID'),
-            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
-            'username' => $validated['email'],
-            'password' => $request->password,
-            'scope' => '',
-        ]);
-
-        if ($response->successful()) {
-            return response()->json($response->json());
-        } else {
-            return response()->json(['error' => 'Unable to create token'], 500);
-        }
+        return response()->json(['message' => 'sccessful creation']);
     }
 
     public function store(Request $request){
