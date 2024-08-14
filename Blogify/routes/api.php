@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -22,8 +23,7 @@ Route::post('register', [AuthController::class, 'register']);
 
 Route::middleware('auth:api')->get('profile', [ProfileController::class, 'show']);
 
-Route::group(['prefix' => 'blogs/', 'middleware' => ['auth:api']], function(){
-
+Route::group(['prefix' => 'blogs/', 'middleware' => ['auth:api']], function () {
     Route::get('', [BlogController::class, 'show']);
 
     Route::post('', [BlogController::class, 'store']);
@@ -32,13 +32,10 @@ Route::group(['prefix' => 'blogs/', 'middleware' => ['auth:api']], function(){
 
     Route::delete('{blog}', [BlogController::class, 'delete']);
 
-    Route::post('{blog}/comments',[CommentController::class, 'store']);
-
+    Route::post('{blog}/comments', [CommentController::class, 'store']);
 });
 
-
-Route::group(['prefix' => 'users/{user}/', 'middleware' => ['auth:api']], function(){
-
+Route::group(['prefix' => 'users/{user}/', 'middleware' => ['auth:api']], function () {
     Route::get('', [UserController::class, 'show']);
 
     Route::post('edit', [UserController::class, 'edit']);
@@ -46,8 +43,30 @@ Route::group(['prefix' => 'users/{user}/', 'middleware' => ['auth:api']], functi
     Route::post('follow', [FollowerController::class, 'follow']);
 
     Route::post('unfollow', [FollowerController::class, 'unfollow']);
-
 });
 
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api']], function () {
 
+    Route::post('login', [App\Http\Controllers\Admin\AuthController::class, 'login']);
+
+    Route::get('profile', [ProfileController::class, 'show']);
+
+    Route::post('registerAdmin', [App\Http\Controllers\Admin\AuthController::class, 'register']);
+
+    Route::group(['prefix' => 'blogs'], function () {
+
+        Route::get('', [BlogController::class, 'show']);
+
+        Route::delete('{blog}', [BlogController::class, 'delete']);
+
+        Route::delete('{blog}/comments/{comment}', [CommentController::class, 'destroy']);
+
+    });
+
+    Route::group(['prefix' => 'users/{user}'], function () {
+
+        Route::get('', [UserController::class, 'show']);
+
+    });
+});
 

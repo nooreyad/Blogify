@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -48,8 +49,10 @@ class BlogController extends Controller
 
     public function delete(Blog $blog) {
 
-        if (auth()->id() !== $blog->user_id) {
-            return response()->json(['error' => 'Unauthorized Access'], 403);
+        $user = User::findorFail(auth()->id());
+
+        if ($user->role_id !== 1 && auth()->id() !== $blog->user_id) {
+            return response()->json(['error' => "Unauthorized Access"]);
         }
 
         if ($blog->image) {

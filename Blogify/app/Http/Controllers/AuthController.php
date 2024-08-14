@@ -63,7 +63,8 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if ($user && Hash::check($validated['password'], $user->password)) {
-            $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
+            
+            $response = Http::asForm()->post(url( '/oauth/token'), [
                 'grant_type' => 'password',
                 'client_id' => env('PASSPORT_CLIENT_ID'),
                 'client_secret' => env('PASSPORT_CLIENT_SECRET'),
@@ -85,7 +86,7 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        if (auth()->attempt($validated)) {
+        if (auth()->Auth::attempt($validated)) {
             $request->session()->regenerate();
 
             return redirect()->route('dashboard')->with('successful', 'Logged in successfully');
@@ -99,7 +100,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        auth()->logout();
+        auth()->Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

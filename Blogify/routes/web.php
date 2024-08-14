@@ -49,3 +49,20 @@ Route::post('users/{user}/unfollow', [FollowerController::class, 'unfollow'])->m
 Route::get('/terms', function(){
     return view('terms');
 })->name('terms');
+
+// Route::group(['prefix' =>'/admin'], function(){
+
+//     Route::get('', [DashboardController::class, 'show'])->name('dashboard');
+
+//     Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login');
+
+
+//     Route::group(['prefix' => 'blogs/{blog}/', 'middleware' => ['auth']], function () {
+
+//         Route::get('', [BlogController::class, 'show'])->name('show');
+
+//         Route::delete('', [BlogController::class, 'destroy'])->name('destroy');
+
+//         Route::post('comments', [CommentController::class, 'destroy'])->name('comments.store');
+//     });
+// });
